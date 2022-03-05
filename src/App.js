@@ -4,33 +4,43 @@ import './App.css';
 
 class StarWars extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
+      loadedCharacter: false,
       name: null,
       height: null,
       homeworld: null,
-      films: []
-    }
+      films: [],
+    };
   }
   getNewCharacter() {
-    console.log('new personage');
-    this.setState({
-      name: 'Luke',
-      height: 172,
-      homeworld: 'Tatooine',
-      films: ['film1',' film2']
-    })
+    const url = 'https://swapi.dev/api/people/1';
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          name: data.name,
+          height: data.height,
+          homeworld: data.homeworld,
+          films: data.films,
+          loadedCharacter: true,
+        });
+      });
   }
 
   render() {
     return (
       <>
-        <h1>{this.state.name}</h1>
-        <p>{this.state.height} cm</p>
-        <p>Homeworld: {this.state.homeworld}</p>
-        <ul>
-          <li>{this.state.films}</li>
-        </ul>
+        {this.state.loadedCharacter && (
+          <div>
+            <h1>{this.state.name}</h1>
+            <p>{this.state.height} cm</p>
+            <p>Homeworld: {this.state.homeworld}</p>
+            <ul>
+              <li>{this.state.films}</li>
+            </ul>
+          </div>
+        )}
         <button
           type='button'
           onClick={() => this.getNewCharacter()}
