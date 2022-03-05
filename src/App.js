@@ -14,7 +14,8 @@ class StarWars extends React.Component {
     };
   }
   getNewCharacter() {
-    const url = 'https://swapi.dev/api/people/1';
+    const randomNumber = Math.round(Math.random() * 82 )
+    const url =  `https://swapi.dev/api/people/${randomNumber}`;
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
